@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity, ImageBackground } from 'react-native';
 import { darkGreen } from '../../components/Constants';
 
 export default function EventScreen() {
@@ -17,29 +17,36 @@ export default function EventScreen() {
   };
 
   return (
-    <View style={styles.container}>
-      <Image source={{ uri: 'https://tatamumbaimarathon.procam.in/wp-content/uploads/2022/08/2_Half-Marathon_2-1.jpg' }} style={styles.image} />
-      <View style={styles.content}>
-        <Text style={styles.title}>{eventData.title}</Text>
-        <Text style={styles.date}>{eventData.date}</Text>
-        <Text style={styles.location}>{eventData.location}</Text>
-        <Text style={styles.description}>{eventData.description}</Text>
-        <TouchableOpacity style={styles.button} onPress={handleRegisterPress}>
-          <Text style={styles.buttonText}>Register Now</Text>
-        </TouchableOpacity>
+    // <ImageBackground source={require('../../../assets/imagee.jpg')} style={styles.background}>
+      <View style={styles.container}>
+        <Image source={(require('../../../assets/ocean.jpg'))} style={styles.image} />
+        <View style={styles.content}>
+          <Text style={styles.title}>{eventData.title}</Text>
+          <Text style={styles.date}>{eventData.date}</Text>
+          <Text style={styles.location}>{eventData.location}</Text>
+          <Text style={styles.description}>{eventData.description}</Text>
+          <TouchableOpacity style={styles.button} onPress={handleRegisterPress}>
+            <Text style={styles.buttonText}>Register Now</Text>
+          </TouchableOpacity>
+        </View>
       </View>
-    </View>
+    // </ImageBackground>
   );
 };
 
 const styles = StyleSheet.create({
+  background: {
+    flex: 1,
+    resizeMode: 'cover',
+  },
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: 'transparent', // Make the container transparent
   },
   image: {
     width: '100%',
     height: 200,
+    opacity: 0.7, // Adjust the opacity of the background image
   },
   content: {
     paddingHorizontal: 16,

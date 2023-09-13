@@ -1,4 +1,11 @@
-import { View, Text, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  TextInput,
+  StyleSheet,
+  ScrollView,
+} from "react-native";
 import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { firebase } from "../../config";
@@ -12,7 +19,7 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  loginUser = async (email, password) => {
+  const loginUser = async (email, password) => {
     try {
       await firebase.auth().signInWithEmailAndPassword(email, password);
     } catch (error) {
@@ -34,45 +41,18 @@ const Login = () => {
 
   return (
     <Background>
-      <View style={{ alignItems: "center", width: 400 }}>
-        <Text
-          style={{
-            color: "white",
-            fontSize: 55,
-            fontWeight: "bold",
-            marginVertical: 45,
-          }}
-        >
-        </Text>
-        <View
-          style={{
-            backgroundColor: "white",
-            height: 700,
-            width: 460,
-            borderTopLeftRadius: 130,
-            paddingTop: 70,
-            alignItems: "center",
-          }}
-        >
-          <Text style={{ fontSize: 40, color: darkGreen, fontWeight: "bold" }}>
-            Welcome Back
-          </Text>
-          <Text
-            style={{
-              color: "grey",
-              fontSize: 19,
-              fontWeight: "bold",
-              marginBottom: 20,
-            }}
-          >
-            Login to your account
-          </Text>
+      <ScrollView contentContainerStyle={styles.container}>
+        {/* Text style={styles.appTitle}>Your App Title</Text> */}
+        <View style={styles.formContainer}>
+          <Text style={styles.sectionTitle}>Welcome Back</Text>
+          <Text style={styles.sectionSubtitle}>Login to your account</Text>
           <Field
             placeholder="Email"
             keyboardType={"email-address"}
             onChangeText={(email) => setEmail(email)}
             autoCapitalize="none"
             autoCorrect={false}
+            style={styles.input}
           />
           <Field
             placeholder="Password"
@@ -80,58 +60,92 @@ const Login = () => {
             onChangeText={(password) => setPassword(password)}
             autoCapitalize="none"
             autoCorrect={false}
+            style={styles.input}
           />
-          <View
-            style={{
-              alignItems: "flex-end",
-              width: "78%",
-              paddingRight: 16,
-              marginBottom: 160,
+          <TouchableOpacity
+            onPress={() => {
+              forgetPassword();
             }}
           >
-            <TouchableOpacity
-              onPress={() => {
-                forgetPassword();
-              }}
-              style={{ marginTop: 20 }}
-            >
-              <Text
-                style={{ color: darkGreen, fontWeight: "bold", fontSize: 16 }}
-              >
-                Forgot Password ?
-              </Text>
-            </TouchableOpacity>
-          </View>
+            <Text style={styles.forgotPassword}>Forgot Password ?</Text>
+          </TouchableOpacity>
           <Btn
             textColor="white"
             bgColor={darkGreen}
             btnLabel="Login"
             Press={() => loginUser(email, password)}
           />
-          <View
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "center",
-            }}
-          >
-            <Text style={{ fontSize: 16, fontWeight: "bold" }}>
-              Don't have an account ?{" "}
-            </Text>
-            <TouchableOpacity
-              onPress={() => navigation.navigate("Register")}
-            >
-              <Text
-                style={{ color: darkGreen, fontWeight: "bold", fontSize: 16 }}
-              >
-                Signup
-              </Text>
+          <View style={styles.signupContainer}>
+            <Text style={styles.signupText}>Don't have an account?</Text>
+            <TouchableOpacity onPress={() => navigation.navigate("Register")}>
+              <Text style={styles.signupLink}>Sign up</Text>
             </TouchableOpacity>
           </View>
         </View>
-      </View>
+      </ScrollView>
     </Background>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    alignItems: "center",
+    flexGrow: 1,
+  },
+  appTitle: {
+    color: "white",
+    fontSize: 32,
+    fontWeight: "bold",
+    marginVertical: 20,
+  },
+  formContainer: {
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 20,
+    width: "90%",
+    marginTop: "40%",
+    alignItems: "center",
+  },
+  sectionTitle: {
+    color: darkGreen,
+    fontSize: 24,
+    fontWeight: "bold",
+  },
+  sectionSubtitle: {
+    color: "grey",
+    fontSize: 16,
+    marginBottom: 20,
+  },
+  input: {
+    width: "100%",
+    marginVertical: 10,
+    padding: 10,
+    borderWidth: 1,
+    borderColor: "lightgrey",
+    borderRadius: 10,
+  },
+  forgotPassword: {
+    color: darkGreen,
+    fontWeight: "bold",
+    fontSize: 16,
+    marginTop: 20,
+  },
+  signupContainer: {
+    flexDirection: "row",
+    justifyContent: "center",
+    marginTop: 20,
+    
+  },
+  signupText: {
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  signupLink: {
+    color: darkGreen,
+    fontWeight: "bold",
+    fontSize: 16,
+    marginLeft: 5,
+  },
+});
 
 export default Login;
